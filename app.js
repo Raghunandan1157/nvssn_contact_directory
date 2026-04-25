@@ -184,12 +184,16 @@
     if (!base) return "";
     const HIDE = "​"; // zero-width space; forces override of card defaults
     const loc = (r.work_location || "").trim();
-    const isHO = /^head\s*office$/i.test(loc) || /head\s*office/i.test(loc);
+    const isHO = /head\s*office/i.test(loc);
+    const email = (window.lookupBranchEmail
+      ? window.lookupBranchEmail(loc, r.department)
+      : "") || "";
     const cardData = {
       name: r.name || "",
       designation: r.designation || "",
       company: window.NVSSN_COMPANY || "",
       phone: (r.phone || "").trim() || HIDE,
+      email: email || HIDE,
       website: window.NVSSN_WEBSITE || "",
       location: loc,
       locationLabel: isHO ? "Head Office" : "Branch Office",
