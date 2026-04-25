@@ -183,14 +183,16 @@
     const base = window.BUSINESS_CARD_URL;
     if (!base) return "";
     const HIDE = "​"; // zero-width space; forces override of card defaults
+    const loc = (r.work_location || "").trim();
+    const isHO = /^head\s*office$/i.test(loc) || /head\s*office/i.test(loc);
     const cardData = {
       name: r.name || "",
       designation: r.designation || "",
       company: window.NVSSN_COMPANY || "",
       phone: (r.phone || "").trim() || HIDE,
-      email: window.NVSSN_EMAIL || HIDE,
       website: window.NVSSN_WEBSITE || "",
-      location: r.work_location || "",
+      location: loc,
+      locationLabel: isHO ? "Head Office" : "Branch Office",
     };
     const enc = btoa(unescape(encodeURIComponent(JSON.stringify(cardData))));
     return `${base}?data=${encodeURIComponent(enc)}`;

@@ -5,5 +5,3 @@ window.NVSSN_TABLE = "nvssn_employees";
 window.BUSINESS_CARD_URL = "https://nvssn-digital-card.vercel.app/";
 window.NVSSN_COMPANY = "Navachetana Vividoddesh Souharda Sahakari Sangha Niyamit";
 window.NVSSN_WEBSITE = "www.navachetanasouhardha.com";
-// Constant email used for every employee on the business card
-window.NVSSN_EMAIL = "info@navachetanasouhardha.com";
