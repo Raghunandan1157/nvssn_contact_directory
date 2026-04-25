@@ -142,8 +142,8 @@
     ].filter(([, v]) => v && v !== "NA");
 
     const wa = phone ? (phone.length > 10 ? phone : "91" + phone) : "";
-    const actions = phone ? `
-      <div class="action-row">
+    const cardUrl = buildBusinessCardUrl(r);
+    const callBtn = phone ? `
         <a class="action call" href="tel:${phone}">
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 15.5c-1.2 0-2.4-.2-3.6-.6-.3-.1-.7 0-1 .2l-2.2 2.2c-2.8-1.4-5.1-3.7-6.6-6.6l2.2-2.2c.3-.3.4-.7.2-1-.4-1.1-.6-2.3-.6-3.5 0-.6-.4-1-1-1H4c-.6 0-1 .4-1 1 0 9.4 7.6 17 17 17 .6 0 1-.4 1-1v-3.5c0-.6-.4-1-1-1Z"/></svg>
           Call
@@ -155,8 +155,13 @@
         <a class="action" href="https://wa.me/${wa}" target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.2-1.7-.8-2-1-.3-.1-.5-.2-.7.1l-.9 1.2c-.2.3-.4.3-.7.1-.3-.2-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.1.2-.3.3-.4.1-.2 0-.4 0-.5-.1-.2-.7-1.6-1-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1.1 1.1-1.1 2.7 0 1.6 1.1 3.1 1.3 3.3.2.2 2.3 3.5 5.5 4.9.8.3 1.4.5 1.9.7.8.2 1.5.2 2.1.1.6-.1 1.7-.7 2-1.4.3-.7.3-1.3.2-1.4-.1-.2-.3-.3-.6-.4ZM12 0a12 12 0 0 0-10.3 18.1L0 24l6-1.6A12 12 0 1 0 12 0Z"/></svg>
           WhatsApp
-        </a>
-      </div>` : "";
+        </a>` : "";
+    const bcardBtn = `
+        <a class="action bcard" href="${cardUrl}" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Zm-9 4a2 2 0 1 1-2 2 2 2 0 0 1 2-2Zm4 9H7v-.8c0-1.3 2.7-2 4-2s4 .7 4 2Zm6-3h-5v-1h5Zm0-2h-5v-1h5Zm0-2h-5V9h5Z"/></svg>
+          Business Card
+        </a>`;
+    const actions = (phone || cardUrl) ? `<div class="action-row">${callBtn}${bcardBtn}</div>` : "";
 
     els.modalBody.innerHTML = `
       <div class="detail-head">
@@ -172,6 +177,23 @@
       </dl>
     `;
     showModal(els.modal);
+  }
+
+  function buildBusinessCardUrl(r) {
+    const base = window.BUSINESS_CARD_URL;
+    if (!base) return "";
+    const cardData = {
+      name: r.name || "",
+      designation: r.designation || "",
+      company: window.NVSSN_COMPANY || "",
+      phone: window.NVSSN_HQ_PHONE || "",
+      cell: r.phone || "",
+      email: "",
+      website: window.NVSSN_WEBSITE || "",
+      location: r.work_location || "",
+    };
+    const enc = btoa(unescape(encodeURIComponent(JSON.stringify(cardData))));
+    return `${base}?data=${encodeURIComponent(enc)}`;
   }
 
   function showModal(m) { m.classList.remove("hidden"); document.body.style.overflow = "hidden"; }
