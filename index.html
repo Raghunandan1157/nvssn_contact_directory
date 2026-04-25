@@ -6,6 +6,7 @@
 <meta name="theme-color" content="#0b1020" />
 <title>NVSSN Directory</title>
 <link rel="stylesheet" href="styles.css" />
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 </head>
 <body>
   <header class="topbar">
@@ -16,6 +17,9 @@
         <p class="sub" id="meta">Loading…</p>
       </div>
     </div>
+    <button id="settingsBtn" class="icon-btn" aria-label="Settings" type="button">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12 8a4 4 0 1 0 4 4 4 4 0 0 0-4-4Zm9.4 4.5a1 1 0 0 0 .6-.9 1 1 0 0 0-.6-.9l-2-1.1a7.4 7.4 0 0 0-.7-1.7l.7-2.1a1 1 0 0 0-.2-1.1L17.3 3.4a1 1 0 0 0-1.1-.2l-2.1.7a7.4 7.4 0 0 0-1.7-.7l-1.1-2A1 1 0 0 0 10.4 1H8.6a1 1 0 0 0-.9.6l-1.1 2a7.4 7.4 0 0 0-1.7.7l-2.1-.7a1 1 0 0 0-1.1.2L.3 5.7a1 1 0 0 0-.2 1.1l.7 2.1a7.4 7.4 0 0 0-.7 1.7l-2 1.1a1 1 0 0 0-.6.9 1 1 0 0 0 .6.9l2 1.1a7.4 7.4 0 0 0 .7 1.7l-.7 2.1a1 1 0 0 0 .2 1.1l1.4 1.4a1 1 0 0 0 1.1.2l2.1-.7a7.4 7.4 0 0 0 1.7.7l1.1 2a1 1 0 0 0 .9.6h1.8a1 1 0 0 0 .9-.6l1.1-2a7.4 7.4 0 0 0 1.7-.7l2.1.7a1 1 0 0 0 1.1-.2l1.4-1.4a1 1 0 0 0 .2-1.1l-.7-2.1a7.4 7.4 0 0 0 .7-1.7Z" transform="translate(2 2)"/></svg>
+    </button>
   </header>
 
   <div class="search-wrap">
@@ -48,10 +52,48 @@
     <p>No matches. Try a different search.</p>
   </div>
 
+  <!-- Detail modal -->
   <div id="modal" class="modal hidden" role="dialog" aria-modal="true">
     <div class="modal-card">
       <button class="modal-close" id="modalClose" aria-label="Close">&times;</button>
       <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <!-- Settings modal -->
+  <div id="settingsModal" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="modal-card">
+      <button class="modal-close" id="settingsClose" aria-label="Close">&times;</button>
+      <h2 class="settings-title">Settings</h2>
+
+      <section id="loginPane">
+        <p class="hint">Sign in to manage data.</p>
+        <form id="loginForm" class="form">
+          <label>Username
+            <input id="loginUser" type="text" autocomplete="username" required />
+          </label>
+          <label>Password
+            <input id="loginPass" type="password" autocomplete="current-password" required />
+          </label>
+          <p id="loginErr" class="err hidden"></p>
+          <button class="btn full" type="submit">Sign in</button>
+        </form>
+      </section>
+
+      <section id="adminPane" class="hidden">
+        <p class="hint">Replace all employee data with a new Excel file. Required columns must match the original sheet (Name, Identity, Department, Email/Phone, Designations, …).</p>
+        <div class="upload-zone">
+          <input id="fileInput" type="file" accept=".xlsx,.xls,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+          <label for="fileInput" id="fileLabel" class="file-label">
+            <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7Zm-14 9v2h14v-2H5Z"/></svg>
+            <span id="fileText">Choose Excel file (.xlsx)</span>
+          </label>
+        </div>
+        <p id="parseInfo" class="hint"></p>
+        <button id="uploadBtn" class="btn full danger" disabled type="button">Upload &amp; Replace All</button>
+        <p id="uploadStatus" class="hint"></p>
+        <button id="logoutBtn" class="btn ghost full" type="button">Sign out</button>
+      </section>
     </div>
   </div>
 
