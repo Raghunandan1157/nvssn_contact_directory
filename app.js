@@ -182,15 +182,12 @@
   function buildBusinessCardUrl(r) {
     const base = window.BUSINESS_CARD_URL;
     if (!base) return "";
-    // Zero-width space — overrides any default on the card site without showing a visible value.
-    const HIDE = "​";
-    const phone = (r.phone || "").trim();
+    const HIDE = "​"; // zero-width space; forces override of card defaults
     const cardData = {
       name: r.name || "",
       designation: r.designation || "",
       company: window.NVSSN_COMPANY || "",
-      phone: phone || HIDE,
-      cell: HIDE,
+      phone: (r.phone || "").trim() || HIDE,
       email: window.NVSSN_EMAIL || HIDE,
       website: window.NVSSN_WEBSITE || "",
       location: r.work_location || "",
