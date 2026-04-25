@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>NVSSN Contact Directory</title>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo">NV</span>
+      <div>
+        <h1>NVSSN Contact Directory</h1>
+        <p class="sub" id="meta">Loading…</p>
+      </div>
+    </div>
+    <div class="actions">
+      <button id="refreshBtn" class="btn">Refresh</button>
+    </div>
+  </header>
+
+  <section class="filters">
+    <input id="search" type="search" placeholder="Search by name, NVSSN ID, phone, manager…" autocomplete="off" />
+    <select id="dept"><option value="">All departments</option></select>
+    <select id="loc"><option value="">All locations</option></select>
+    <select id="mgr"><option value="">All managers</option></select>
+    <select id="desg"><option value="">All designations</option></select>
+    <button id="clearBtn" class="btn ghost">Clear</button>
+  </section>
+
+  <section class="stats" id="stats"></section>
+
+  <main id="grid" class="grid" aria-live="polite"></main>
+
+  <div id="empty" class="empty hidden">No employees match the current filters.</div>
+
+  <div id="modal" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="modal-card">
+      <button class="modal-close" id="modalClose" aria-label="Close">&times;</button>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <footer class="foot">
+    <span>Data: Supabase · Table <code>nvssn_employees</code></span>
+  </footer>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
