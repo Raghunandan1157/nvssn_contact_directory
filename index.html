@@ -2,38 +2,51 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>NVSSN Contact Directory</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#0b1020" />
+<title>NVSSN Directory</title>
 <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <header class="topbar">
     <div class="brand">
       <span class="logo">NV</span>
-      <div>
-        <h1>NVSSN Contact Directory</h1>
+      <div class="title">
+        <h1>NVSSN Directory</h1>
         <p class="sub" id="meta">Loading…</p>
       </div>
     </div>
-    <div class="actions">
-      <button id="refreshBtn" class="btn">Refresh</button>
-    </div>
   </header>
 
-  <section class="filters">
-    <input id="search" type="search" placeholder="Search by name, NVSSN ID, phone, manager…" autocomplete="off" />
-    <select id="dept"><option value="">All departments</option></select>
-    <select id="loc"><option value="">All locations</option></select>
-    <select id="mgr"><option value="">All managers</option></select>
-    <select id="desg"><option value="">All designations</option></select>
-    <button id="clearBtn" class="btn ghost">Clear</button>
+  <div class="search-wrap">
+    <div class="search-box">
+      <svg class="ic" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M10 18a8 8 0 1 1 5.3-14A8 8 0 0 1 10 18Zm11.7 2.3-4.4-4.4a10 10 0 1 0-1.4 1.4l4.4 4.4a1 1 0 0 0 1.4-1.4Z"/></svg>
+      <input id="search" type="search" placeholder="Search name, ID, phone…" autocomplete="off" inputmode="search" />
+      <button id="clearSearch" class="x-btn" aria-label="Clear search" type="button">&times;</button>
+    </div>
+    <button id="filterToggle" class="filter-btn" type="button" aria-expanded="false">
+      <svg viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M3 5h18v2H3zm3 6h12v2H6zm4 6h4v2h-4z"/></svg>
+      <span>Filters</span>
+      <span id="activeCount" class="badge hidden">0</span>
+    </button>
+  </div>
+
+  <section id="filterPanel" class="filter-panel hidden">
+    <label>Department<select id="dept"><option value="">All</option></select></label>
+    <label>Location<select id="loc"><option value="">All</option></select></label>
+    <label>Manager<select id="mgr"><option value="">All</option></select></label>
+    <label>Designation<select id="desg"><option value="">All</option></select></label>
+    <button id="clearBtn" class="btn ghost full" type="button">Clear all</button>
   </section>
 
-  <section class="stats" id="stats"></section>
+  <p id="resultCount" class="result-count"></p>
 
-  <main id="grid" class="grid" aria-live="polite"></main>
+  <main id="grid" class="list" aria-live="polite"></main>
 
-  <div id="empty" class="empty hidden">No employees match the current filters.</div>
+  <div id="empty" class="empty hidden">
+    <div class="empty-emoji">🔎</div>
+    <p>No matches. Try a different search.</p>
+  </div>
 
   <div id="modal" class="modal hidden" role="dialog" aria-modal="true">
     <div class="modal-card">
@@ -41,10 +54,6 @@
       <div id="modalBody"></div>
     </div>
   </div>
-
-  <footer class="foot">
-    <span>Data: Supabase · Table <code>nvssn_employees</code></span>
-  </footer>
 
   <script src="config.js"></script>
   <script src="app.js"></script>
